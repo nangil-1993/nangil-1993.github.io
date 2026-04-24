@@ -363,6 +363,124 @@
     .hobby-name { font-weight: 700; margin-bottom: 8px; }
     .hobby-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
 
+    /* ── TUVALU GALLERY ── */
+    .gallery-intro {
+      max-width: 1000px;
+      margin-bottom: 40px;
+    }
+
+    .gallery-intro p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      margin-bottom: 10px;
+    }
+
+    .video-wrap {
+      max-width: 1000px;
+      margin-bottom: 40px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    .video-wrap video {
+      width: 100%;
+      max-height: 520px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 1000px;
+    }
+
+    .gallery-grid .tall {
+      grid-row: span 2;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      aspect-ratio: 1 / 1;
+      background: var(--surface);
+    }
+
+    .gallery-item.tall {
+      aspect-ratio: unset;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-item .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 14px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: #fff;
+      font-size: 0.78rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .caption {
+      opacity: 1;
+    }
+
+    /* 라이트박스 */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { gap: 20px; }
@@ -370,6 +488,7 @@
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
       .about-left h1 { font-size: 3.5rem; }
       .portfolio-card.featured { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -380,6 +499,7 @@
     <ul class="nav-links">
       <li><a onclick="showSection('about')" class="active" id="nav-about">About</a></li>
       <li><a onclick="showSection('portfolio')" id="nav-portfolio">Portfolio</a></li>
+      <li><a onclick="showSection('tuvalu')" id="nav-tuvalu">투발루</a></li>
       <li><a onclick="showSection('hobby')" id="nav-hobby">취미</a></li>
     </ul>
   </nav>
@@ -390,10 +510,7 @@
       <div class="about-left">
         <h1>안녕하세요<span>난길입니다</span></h1>
         <p>세계의 정보를 수집하고 팩트체크를 통해 실시간으로 사람들에게 전달하는 마케팅 일을 하고 있습니다.</p>
-        <div class="name-meaning">
-          <div class="label">이름의 뜻</div>
-          <p>난길(難吉) — <strong>밝고 환한 앞날을 향해 나아간다</strong>는 의미를 담고 있습니다.</p>
-        </div>
+
       </div>
 
     </div>
@@ -435,6 +552,68 @@
         </div>
       </div>
 
+      <!-- SNS -->
+      <div class="portfolio-card" style="grid-column: 1 / -1;">
+        <div class="card-icon">📲</div>
+        <div class="card-title">SNS</div>
+        <div class="card-desc" style="margin-bottom: 20px;">다양한 채널에서 난길을 만나보세요.</div>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+
+          <a href="https://www.instagram.com/btvt_1993" target="_blank" style="
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 20px; border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            text-decoration: none; color: var(--text);
+            font-size: 0.9rem; font-weight: 500;
+            transition: border-color 0.3s, transform 0.3s;
+          " onmouseover="this.style.borderColor='#E1306C';this.style.transform='translateY(-3px)'"
+             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs><linearGradient id="ig" x1="0" y1="24" x2="24" y2="0"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig)" stroke-width="2"/>
+              <circle cx="12" cy="12" r="4" stroke="url(#ig)" stroke-width="2"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="url(#ig)"/>
+            </svg>
+            Instagram
+          </a>
+
+          <a href="https://blog.naver.com/dod000111" target="_blank" style="
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 20px; border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            text-decoration: none; color: var(--text);
+            font-size: 0.9rem; font-weight: 500;
+            transition: border-color 0.3s, transform 0.3s;
+          " onmouseover="this.style.borderColor='#03C75A';this.style.transform='translateY(-3px)'"
+             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="5" fill="#03C75A"/>
+              <text x="4" y="17" font-size="13" font-weight="900" font-family="Arial" fill="white">N</text>
+            </svg>
+            Naver Blog
+          </a>
+
+          <a href="https://x.com/nangil_8090" target="_blank" style="
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 20px; border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            text-decoration: none; color: var(--text);
+            font-size: 0.9rem; font-weight: 500;
+            transition: border-color 0.3s, transform 0.3s;
+          " onmouseover="this.style.borderColor='#ffffff';this.style.transform='translateY(-3px)'"
+             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.894l4.261 5.636 5.839-6.636zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
+            </svg>
+            X (Twitter)
+          </a>
+
+        </div>
+      </div>
+
       <!-- 마케팅 -->
       <div class="portfolio-card">
         <div class="card-icon">📡</div>
@@ -448,6 +627,74 @@
 
     </div>
   </section>
+
+  <!-- TUVALU -->
+  <section id="tuvalu">
+    <div class="section-title">투발루 <span>2018</span></div>
+
+    <div class="gallery-intro">
+      <p>남태평양 한가운데, 인구 5천 명의 작은 섬나라 <strong style="color:var(--text)">투발루</strong>.</p>
+      <p>태권도 문화외교단으로 파견되어 현지 아이들에게 태권도를 가르쳤습니다. 바다처럼 맑고 순수한 사람들, 밤하늘을 가득 채우던 별똥별 — 지금도 눈을 감으면 선명하게 떠오르는 곳입니다.</p>
+    </div>
+
+    <!-- 영상 -->
+    <div class="video-wrap">
+      <video controls poster="">
+        <source src="단독공연.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- 사진 갤러리 -->
+    <div class="gallery-grid">
+
+      <div class="gallery-item tall" onclick="openLightbox('첫수업_.JPG')">
+        <img src="첫수업_.JPG" alt="투발루 첫 수업">
+        <div class="caption">🥋 투발루 아이들과의 첫 수업</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('IMG_4590.JPG')">
+        <img src="IMG_4590.JPG" alt="태권도 수업">
+        <div class="caption">🥋 태권도 수업 현장</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('IMG_4806.JPG')">
+        <img src="IMG_4806.JPG" alt="투발루 바다">
+        <div class="caption">🌊 투발루의 에메랄드빛 바다</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('IMG_4691.JPG')">
+        <img src="IMG_4691.JPG" alt="야자수와 바다">
+        <div class="caption">🌴 야자수 너머로 보이는 바다</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('IMG_4695.JPG')">
+        <img src="IMG_4695.JPG" alt="투발루 노을">
+        <div class="caption">🌅 투발루의 석양</div>
+      </div>
+
+      <div class="gallery-item tall" onclick="openLightbox('IMG_4719.JPG')">
+        <img src="IMG_4719.JPG" alt="투발루 일몰">
+        <div class="caption">🌇 섬의 끝에서 바라본 일몰</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('IMG_4449.JPG')">
+        <img src="IMG_4449.JPG" alt="활주로">
+        <div class="caption">✈️ 별똥별을 보던 그 활주로</div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox('20180113_095903.jpg')">
+        <img src="20180113_095903.jpg" alt="활주로 옆 돼지">
+        <div class="caption">🐷 활주로 옆에서 유유자적...</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
 
   <!-- HOBBY -->
   <section id="hobby">
@@ -484,6 +731,19 @@
       document.getElementById(id).classList.add('active');
       document.getElementById('nav-' + id).classList.add('active');
     }
+
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 
 </body>
