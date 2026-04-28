@@ -3,746 +3,572 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nangil-1993</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <title>NANGIL — 난길</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --border: #1e1e2e;
-      --accent: #7c6af7;
-      --accent2: #e0507a;
-      --text: #e8e8f0;
-      --muted: #6b6b80;
+      --bg: #f7f5f0;
+      --ink: #1a1814;
+      --muted: #8a8680;
+      --line: #dedad4;
+      --accent: #c4965a;
+      --surface: #efece6;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
       font-family: 'Noto Sans KR', sans-serif;
-      min-height: 100vh;
+      font-weight: 300;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background:
-        radial-gradient(ellipse at 20% 20%, rgba(124,106,247,0.07) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(224,80,122,0.05) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
+    /* NAV */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 20px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      padding: 22px 60px;
+      background: rgba(247,245,240,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
     }
 
     .logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 3px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      color: var(--ink);
+      text-decoration: none;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
+    .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
       transition: color 0.3s;
-      cursor: pointer;
     }
+    .nav-links a:hover { color: var(--ink); }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--text);
-    }
-
-    section {
-      display: none;
+    /* HERO */
+    #hero {
       min-height: 100vh;
-      padding: 120px 60px 60px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 60px 80px;
       position: relative;
-      z-index: 1;
-      animation: fadeUp 0.6s ease forwards;
+      overflow: hidden;
     }
 
-    section.active { display: block; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(196,150,90,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(196,150,90,0.05) 0%, transparent 50%);
     }
 
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      max-width: 680px;
-      margin: 0 auto;
-      align-items: start;
-      padding-top: 40px;
+    .hero-line {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 1px; background: var(--line); opacity: 0.6;
     }
 
-    .about-left h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 5rem;
-      line-height: 1;
-      letter-spacing: 4px;
-      margin-bottom: 20px;
-    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
 
-    .about-left h1 span {
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
       display: block;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      width: 40px; height: 1px;
+      background: var(--accent);
     }
 
-    .about-left p {
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 12vw, 10rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -2px;
+      margin-bottom: 32px;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+
+    .hero-desc {
+      font-size: 1rem;
       color: var(--muted);
       line-height: 1.9;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
+      max-width: 480px;
+      border-left: 2px solid var(--accent);
+      padding-left: 20px;
     }
 
-    .about-left .name-meaning {
-      margin-top: 24px;
-      padding: 20px 24px;
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px; right: 60px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px; height: 50px;
+      background: var(--muted);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 120px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 48px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--line); max-width: 80px;
+    }
+
+    /* ABOUT */
+    #about { border-top: 1px solid var(--line); }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .about-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -1px;
+      margin-bottom: 32px;
+    }
+    .about-title em { font-style: italic; color: var(--accent); }
+
+    .about-text {
+      color: var(--muted); font-size: 0.95rem;
+      line-height: 2; margin-bottom: 20px;
+    }
+
+    .about-quote {
+      margin-top: 40px; padding: 28px 32px;
       background: var(--surface);
       border-left: 3px solid var(--accent);
-      border-radius: 0 12px 12px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-style: italic;
+      line-height: 1.8; color: var(--ink);
     }
 
-    .about-left .name-meaning .label {
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
+    /* PORTFOLIO */
+    #portfolio { border-top: 1px solid var(--line); }
 
-    .about-left .name-meaning p {
-      color: var(--text);
-      font-size: 0.9rem;
-      margin-bottom: 0;
-    }
-
-    /* 방향성 섹션 */
-    .direction-section {
-      max-width: 1000px;
-      margin: 60px auto 0;
-    }
-
-    .direction-section h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 3px;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
-
-    .direction-section h2 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .direction-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px 40px;
-      line-height: 2;
-      color: var(--muted);
-      font-size: 0.95rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .direction-card::before {
-      content: '"';
-      position: absolute;
-      top: -10px;
-      left: 30px;
-      font-size: 8rem;
-      font-family: 'Bebas Neue', sans-serif;
-      color: rgba(124,106,247,0.08);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .direction-card p {
-      position: relative;
-      z-index: 1;
-    }
-
-    .direction-card strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .about-right {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.9rem;
-    }
-
-    .info-row:last-child { border-bottom: none; }
-    .info-label { color: var(--muted); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; }
-    .info-value { color: var(--text); font-weight: 500; text-align: right; max-width: 60%; }
-
-    /* ── PORTFOLIO ── */
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      letter-spacing: 4px;
-      margin-bottom: 10px;
-    }
-
-    .section-title span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 50px;
-    }
-
-    .portfolio-grid {
+    .portfolio-items {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
-      max-width: 1000px;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--line);
+      border: 1px solid var(--line);
     }
 
-    .portfolio-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      transition: border-color 0.3s, transform 0.3s;
-      cursor: pointer;
+    .p-item {
+      background: var(--bg); padding: 48px 40px;
+      cursor: default;
+      transition: background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .p-item.wide { grid-column: 1 / -1; }
+
+    .tuvalu-card { cursor: pointer; }
+    .tuvalu-card:hover { background: var(--surface); }
+    .tuvalu-card .p-title::after {
+      content: ' ↗'; font-size: 1.1rem;
+      color: var(--accent); opacity: 0; transition: opacity 0.2s;
+    }
+    .tuvalu-card:hover .p-title::after { opacity: 1; }
+
+    .p-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; font-weight: 300;
+      color: var(--line); line-height: 1; margin-bottom: 16px;
+    }
+    .p-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 400;
+      margin-bottom: 12px; line-height: 1.2;
+    }
+    .p-desc {
+      color: var(--muted); font-size: 0.85rem;
+      line-height: 1.8; max-width: 480px;
+    }
+    .p-tags { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .p-tag {
+      font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(196,150,90,0.3);
+      padding: 3px 10px; border-radius: 2px;
     }
 
-    .portfolio-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
+    /* TUVALU MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(26,24,20,0.93);
+      z-index: 200; overflow-y: auto;
+    }
+    .modal-overlay.open { display: block; }
+
+    .modal-inner { max-width: 960px; margin: 0 auto; padding: 80px 40px; }
+
+    .modal-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 48px;
     }
 
-    /* 투발루 특별 카드 */
-    .portfolio-card.featured {
-      grid-column: 1 / -1;
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300;
+      color: #f7f5f0; line-height: 1.1;
+    }
+    .modal-title em { font-style: italic; color: var(--accent); }
+
+    .modal-close {
+      background: none; border: 1px solid rgba(247,245,240,0.2);
+      color: #f7f5f0; width: 44px; height: 44px; border-radius: 50%;
+      font-size: 1.2rem; cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+    }
+    .modal-close:hover { background: rgba(247,245,240,0.1); }
+
+    .modal-desc {
+      color: rgba(247,245,240,0.6); font-size: 0.95rem;
+      line-height: 2; max-width: 600px; margin-bottom: 48px;
+    }
+
+    .modal-video {
+      width: 100%; border-radius: 8px; overflow: hidden;
+      margin-bottom: 40px; background: #000;
+    }
+    .modal-video video { width: 100%; max-height: 480px; object-fit: cover; display: block; }
+
+    /* 투발루 풍경 이미지 그리드 */
+    .modal-grid {
       display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 32px;
-      align-items: start;
-      border-color: rgba(124,106,247,0.3);
-      background: linear-gradient(135deg, rgba(124,106,247,0.05), rgba(224,80,122,0.03));
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px; margin-bottom: 40px;
     }
-
-    .portfolio-card.featured:hover {
-      border-color: var(--accent);
+    .modal-grid img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      border-radius: 4px; cursor: pointer; transition: opacity 0.3s;
     }
+    .modal-grid img:hover { opacity: 0.8; }
+    .modal-grid .span2 { grid-column: span 2; aspect-ratio: 16/9; }
 
-    .featured-icon {
-      font-size: 3.5rem;
-      line-height: 1;
+    /* 내 사진 */
+    .my-photos-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-style: italic;
+      color: rgba(247,245,240,0.5); margin-bottom: 14px;
     }
-
-    .featured-badge {
-      display: inline-block;
-      margin-bottom: 10px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      background: rgba(224,80,122,0.15);
-      color: var(--accent2);
-      border: 1px solid rgba(224,80,122,0.3);
+    .my-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
     }
-
-    .card-icon {
-      font-size: 2rem;
-      margin-bottom: 16px;
+    .my-grid img {
+      width: 100%; aspect-ratio: 1; object-fit: cover;
+      border-radius: 4px; cursor: pointer; transition: opacity 0.3s, transform 0.3s;
     }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .card-desc {
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.8;
-    }
-
-    .card-tag {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      background: rgba(124,106,247,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(124,106,247,0.3);
-    }
-
-    .card-tag + .card-tag {
-      margin-left: 6px;
-    }
-
-    /* ── HOBBY ── */
-    .hobby-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-    }
-
-    .hobby-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px;
-      text-align: center;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .hobby-card:hover {
-      border-color: var(--accent2);
-      transform: translateY(-4px);
-    }
-
-    .hobby-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .hobby-name { font-weight: 700; margin-bottom: 8px; }
-    .hobby-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
-
-    /* ── TUVALU GALLERY ── */
-    .gallery-intro {
-      max-width: 1000px;
-      margin-bottom: 40px;
-    }
-
-    .gallery-intro p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.9;
-      margin-bottom: 10px;
-    }
-
-    .video-wrap {
-      max-width: 1000px;
-      margin-bottom: 40px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #000;
-    }
-
-    .video-wrap video {
-      width: 100%;
-      max-height: 520px;
-      display: block;
-      object-fit: cover;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      max-width: 1000px;
-    }
-
-    .gallery-grid .tall {
-      grid-row: span 2;
-    }
-
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      cursor: pointer;
-      aspect-ratio: 1 / 1;
-      background: var(--surface);
-    }
-
-    .gallery-item.tall {
-      aspect-ratio: unset;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-      display: block;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .gallery-item .caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 20px 14px 12px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.75));
-      color: #fff;
-      font-size: 0.78rem;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .gallery-item:hover .caption {
-      opacity: 1;
-    }
+    .my-grid img:hover { opacity: 0.8; transform: scale(1.02); }
 
     /* 라이트박스 */
     .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.95); z-index: 300;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: 4px; }
+    .lightbox-x {
+      position: absolute; top: 24px; right: 32px;
+      color: #fff; font-size: 1.8rem; cursor: pointer;
+      opacity: 0.6; transition: opacity 0.2s;
+    }
+    .lightbox-x:hover { opacity: 1; }
+
+    /* CONNECT */
+    #connect { border-top: 1px solid var(--line); }
+
+    .sns-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    .sns-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 28px; border: 1px solid var(--line); border-radius: 3px;
+      text-decoration: none; color: var(--ink);
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px;
+      transition: border-color 0.3s, background 0.3s; background: var(--bg);
+    }
+    .sns-link:hover { background: var(--surface); border-color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; color: var(--muted); letter-spacing: 1px;
     }
 
-    .lightbox.open {
-      display: flex;
-    }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 12px;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 24px;
-      right: 32px;
-      font-size: 2rem;
-      color: #fff;
-      cursor: pointer;
-      line-height: 1;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-
-    .lightbox-close:hover { opacity: 1; }
-
+    /* 반응형 */
     @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
+      nav { padding: 18px 24px; }
       .nav-links { gap: 20px; }
-      section { padding: 100px 24px 40px; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .about-left h1 { font-size: 3.5rem; }
-      .portfolio-card.featured { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      #hero { padding: 0 24px 60px; }
+      .hero-scroll { right: 24px; }
+      .section { padding: 80px 24px; }
+      .about-layout { grid-template-columns: 1fr; gap: 40px; }
+      .portfolio-items { grid-template-columns: 1fr; }
+      .p-item.wide { grid-column: 1; }
+      .modal-inner { padding: 60px 20px; }
+      .modal-grid { grid-template-columns: repeat(2, 1fr); }
+      .my-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="logo">NANGIL</div>
+    <a class="logo" href="#hero">NANGIL</a>
     <ul class="nav-links">
-      <li><a onclick="showSection('about')" class="active" id="nav-about">About</a></li>
-      <li><a onclick="showSection('portfolio')" id="nav-portfolio">Portfolio</a></li>
-      <li><a onclick="showSection('tuvalu')" id="nav-tuvalu">투발루</a></li>
-      <li><a onclick="showSection('hobby')" id="nav-hobby">취미</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">포트폴리오</a></li>
+      <li><a href="#connect">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- ABOUT -->
-  <section id="about" class="active">
-    <div class="about-grid">
-      <div class="about-left">
-        <h1>안녕하세요<span>난길입니다</span></h1>
-        <p>세계의 정보를 수집하고 팩트체크를 통해 실시간으로 사람들에게 전달하는 마케팅 일을 하고 있습니다.</p>
-
-      </div>
-
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-line"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">난길 — 밝고 환한 앞날을 향해</div>
+      <h1 class="hero-name">NANG<em>IL</em></h1>
+      <p class="hero-desc">세계의 정보를 수집하고 팩트체크를 통해<br>실시간으로 사람들에게 전달하는 일을 합니다.<br>어느 누구와도 함께 행복하게, 의미 있는 시간을 나누고 싶습니다.</p>
     </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
 
-    <!-- 앞으로의 방향 -->
-    <div class="direction-section">
-      <h2>앞으로의 <span>방향</span></h2>
-      <div class="direction-card">
-        <p>
-          이름처럼 <strong>밝고 환한 앞날을 향해</strong> 삶을 개척해 나가고 싶습니다.<br>
-          뚜렷한 목표 하나보다, 누구와 함께하든 그 순간만큼은 <strong>서로 행복하고 의미 있는 시간</strong>이 되길 바랍니다.<br>
-          언제든 편하게 찾아올 수 있는 사람, 그리고 그런 공간이 되는 것 —<br>
-          그게 제 목표이자, 지금 이 순간에도 실천하고 있는 삶의 방식입니다.
-        </p>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section">
+      <div class="section-label">About</div>
+      <div class="about-layout">
+        <div>
+          <h2 class="about-title">삶을<br>개척하는<br><em>사람</em></h2>
+        </div>
+        <div>
+          <p class="about-text">세계 각지의 정보를 수집하고 팩트체크를 통해 실시간으로 사람들에게 전달하는 마케팅 일을 하고 있습니다.</p>
+          <p class="about-text">뚜렷한 목표 하나를 향해 달리기보다, 누구와 함께하든 그 순간만큼은 서로 행복하고 의미 있는 시간이 되길 바랍니다. 언제든 편하게 찾아올 수 있는 사람이 되는 것 — 그게 목표이자, 지금 이 순간에도 실천하고 있는 삶의 방식입니다.</p>
+          <div class="about-quote">
+            난길(難吉) — 밝고 환한 앞날을 향해 나아간다.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- PORTFOLIO -->
   <section id="portfolio">
-    <div class="section-title">PORT<span>FOLIO</span></div>
-    <p class="section-sub">살아오면서 경험하고 만들어온 것들을 소개합니다.</p>
-    <div class="portfolio-grid">
+    <div class="section">
+      <div class="section-label">Portfolio</div>
+      <div class="portfolio-items">
 
-      <!-- 투발루 파견 — 대표 카드 -->
-      <div class="portfolio-card featured">
-        <div class="featured-icon">🌊</div>
-        <div>
-          <span class="featured-badge">Most Meaningful</span>
-          <div class="card-title" style="font-size:1.25rem;">외국여행 중 가장 기억에 남는 나라는?</div>
-          <div class="card-desc">
-            2018년, 남태평양의 작은 섬나라 투발루에 태권도 문화외교단으로 파견되었습니다. 인구 5천여 명의 이 나라 주민들에게 대한민국의 국기인 태권도를 가르치고 한국 문화를 알렸습니다.<br><br>
-            투발루 한가운데를 가로지르는 비행기 활주로 — 밤이 되면 비행기가 다니지 않아, 섬 주민 모두가 그 활주로에 나와 함께 누워 별똥별을 바라보던 그 밤이 아직도 기억에 남습니다. 바다처럼 맑고 순수한 사람들과 함께한, 잊을 수 없는 시간이었습니다.
+        <div class="p-item wide tuvalu-card" onclick="openTuvalu()">
+          <div class="p-num">01</div>
+          <div class="p-title">가장 기억에 남는 나라</div>
+          <div class="p-desc">남태평양의 작은 섬나라 투발루. 인구 5천여 명, 맑고 순수한 사람들, 그리고 활주로 위에서 바라본 별똥별. 클릭해서 그 기억을 들여다보세요.</div>
+          <div class="p-tags">
+            <span class="p-tag">투발루</span>
+            <span class="p-tag">2018</span>
+            <span class="p-tag">태권도 문화외교</span>
           </div>
-          <span class="card-tag">태권도</span>
-          <span class="card-tag">문화외교</span>
-          <span class="card-tag">투발루</span>
-          <span class="card-tag">2018</span>
         </div>
-      </div>
 
-      <!-- SNS -->
-      <div class="portfolio-card" style="grid-column: 1 / -1;">
-        <div class="card-icon">📲</div>
-        <div class="card-title">SNS</div>
-        <div class="card-desc" style="margin-bottom: 20px;">다양한 채널에서 난길을 만나보세요.</div>
-        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-
-          <a href="https://www.instagram.com/btvt_1993" target="_blank" style="
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px 20px; border-radius: 12px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            text-decoration: none; color: var(--text);
-            font-size: 0.9rem; font-weight: 500;
-            transition: border-color 0.3s, transform 0.3s;
-          " onmouseover="this.style.borderColor='#E1306C';this.style.transform='translateY(-3px)'"
-             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs><linearGradient id="ig" x1="0" y1="24" x2="24" y2="0"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
-              <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig)" stroke-width="2"/>
-              <circle cx="12" cy="12" r="4" stroke="url(#ig)" stroke-width="2"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="url(#ig)"/>
-            </svg>
-            Instagram
-          </a>
-
-          <a href="https://blog.naver.com/dod000111" target="_blank" style="
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px 20px; border-radius: 12px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            text-decoration: none; color: var(--text);
-            font-size: 0.9rem; font-weight: 500;
-            transition: border-color 0.3s, transform 0.3s;
-          " onmouseover="this.style.borderColor='#03C75A';this.style.transform='translateY(-3px)'"
-             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="24" height="24" rx="5" fill="#03C75A"/>
-              <text x="4" y="17" font-size="13" font-weight="900" font-family="Arial" fill="white">N</text>
-            </svg>
-            Naver Blog
-          </a>
-
-          <a href="https://x.com/nangil_8090" target="_blank" style="
-            display: flex; align-items: center; gap: 10px;
-            padding: 12px 20px; border-radius: 12px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            text-decoration: none; color: var(--text);
-            font-size: 0.9rem; font-weight: 500;
-            transition: border-color 0.3s, transform 0.3s;
-          " onmouseover="this.style.borderColor='#ffffff';this.style.transform='translateY(-3px)'"
-             onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.894l4.261 5.636 5.839-6.636zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
-            </svg>
-            X (Twitter)
-          </a>
-
+        <div class="p-item">
+          <div class="p-num">02</div>
+          <div class="p-title">글로벌 정보수집 & 마케팅</div>
+          <div class="p-desc">세계 각지의 정보를 수집하고 팩트체크를 통해 실시간으로 사람들에게 전달하는 마케팅 활동을 하고 있습니다.</div>
+          <div class="p-tags">
+            <span class="p-tag">마케팅</span>
+            <span class="p-tag">팩트체크</span>
+          </div>
         </div>
+
+        <div class="p-item">
+          <div class="p-num">03</div>
+          <div class="p-title">나의 첫 개인 홈페이지</div>
+          <div class="p-desc">인스타, 페이스북에 흘려보내던 일상을 이제 이곳에 기록합니다. 삶의 아카이브를 만들어가는 중입니다.</div>
+          <div class="p-tags">
+            <span class="p-tag">GitHub Pages</span>
+            <span class="p-tag">기록</span>
+          </div>
+        </div>
+
       </div>
-
-      <!-- 마케팅 -->
-      <div class="portfolio-card">
-        <div class="card-icon">📡</div>
-        <div class="card-title">글로벌 정보수집 & 팩트체크 마케팅</div>
-        <div class="card-desc">세계 각지의 정보를 수집하고 팩트체크를 통해 실시간으로 사람들에게 전달하는 마케팅 활동을 하고 있습니다.</div>
-        <span class="card-tag">마케팅</span>
-        <span class="card-tag">팩트체크</span>
-      </div>
-
-
-
     </div>
   </section>
 
-  <!-- TUVALU -->
-  <section id="tuvalu">
-    <div class="section-title">투발루 <span>2018</span></div>
+  <!-- CONNECT -->
+  <section id="connect">
+    <div class="section">
+      <div class="section-label">Connect</div>
+      <div class="sns-grid">
 
-    <div class="gallery-intro">
-      <p>남태평양 한가운데, 인구 5천 명의 작은 섬나라 <strong style="color:var(--text)">투발루</strong>.</p>
-      <p>태권도 문화외교단으로 파견되어 현지 아이들에게 태권도를 가르쳤습니다. 바다처럼 맑고 순수한 사람들, 밤하늘을 가득 채우던 별똥별 — 지금도 눈을 감으면 선명하게 떠오르는 곳입니다.</p>
-    </div>
+        <a href="https://www.instagram.com/btvt_1993" target="_blank" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <defs><linearGradient id="ig2" x1="0" y1="24" x2="24" y2="0">
+              <stop offset="0%" stop-color="#f09433"/>
+              <stop offset="50%" stop-color="#dc2743"/>
+              <stop offset="100%" stop-color="#bc1888"/>
+            </linearGradient></defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig2)" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4" stroke="url(#ig2)" stroke-width="1.8"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="url(#ig2)"/>
+          </svg>
+          Instagram
+        </a>
 
-    <!-- 영상 -->
-    <div class="video-wrap">
-      <video controls poster="">
-        <source src="단독공연.mp4" type="video/mp4">
-      </video>
-    </div>
+        <a href="https://blog.naver.com/dod000111" target="_blank" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <rect width="24" height="24" rx="5" fill="#03C75A"/>
+            <text x="4.5" y="17" font-size="13" font-weight="900" font-family="Arial" fill="white">N</text>
+          </svg>
+          Naver Blog
+        </a>
 
-    <!-- 사진 갤러리 -->
-    <div class="gallery-grid">
+        <a href="https://x.com/nangil_8090" target="_blank" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.894l4.261 5.636 5.839-6.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          X (Twitter)
+        </a>
 
-      <div class="gallery-item tall" onclick="openLightbox('첫수업_.JPG')">
-        <img src="첫수업_.JPG" alt="투발루 첫 수업">
-        <div class="caption">🥋 투발루 아이들과의 첫 수업</div>
       </div>
-
-      <div class="gallery-item" onclick="openLightbox('IMG_4590.JPG')">
-        <img src="IMG_4590.JPG" alt="태권도 수업">
-        <div class="caption">🥋 태권도 수업 현장</div>
-      </div>
-
-      <div class="gallery-item" onclick="openLightbox('IMG_4806.JPG')">
-        <img src="IMG_4806.JPG" alt="투발루 바다">
-        <div class="caption">🌊 투발루의 에메랄드빛 바다</div>
-      </div>
-
-      <div class="gallery-item" onclick="openLightbox('IMG_4691.JPG')">
-        <img src="IMG_4691.JPG" alt="야자수와 바다">
-        <div class="caption">🌴 야자수 너머로 보이는 바다</div>
-      </div>
-
-      <div class="gallery-item" onclick="openLightbox('IMG_4695.JPG')">
-        <img src="IMG_4695.JPG" alt="투발루 노을">
-        <div class="caption">🌅 투발루의 석양</div>
-      </div>
-
-      <div class="gallery-item tall" onclick="openLightbox('IMG_4719.JPG')">
-        <img src="IMG_4719.JPG" alt="투발루 일몰">
-        <div class="caption">🌇 섬의 끝에서 바라본 일몰</div>
-      </div>
-
-      <div class="gallery-item" onclick="openLightbox('IMG_4449.JPG')">
-        <img src="IMG_4449.JPG" alt="활주로">
-        <div class="caption">✈️ 별똥별을 보던 그 활주로</div>
-      </div>
-
-      <div class="gallery-item" onclick="openLightbox('20180113_095903.jpg')">
-        <img src="20180113_095903.jpg" alt="활주로 옆 돼지">
-        <div class="caption">🐷 활주로 옆에서 유유자적...</div>
-      </div>
-
     </div>
   </section>
+
+  <footer>
+    <span>© 2024 NANGIL</span>
+    <span style="font-style:italic; font-family:'Cormorant Garamond', serif; font-size:0.9rem;">밝고 환한 앞날을 향해</span>
+  </footer>
+
+  <!-- TUVALU MODAL -->
+  <div class="modal-overlay" id="tuvaluModal">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <div class="modal-title">투발루,<br><em>Tuvalu</em></div>
+        <button class="modal-close" onclick="closeTuvalu()">✕</button>
+      </div>
+      <p class="modal-desc">
+        2018년, 남태평양의 작은 섬나라 투발루에 태권도 문화외교단으로 파견되었습니다.<br>
+        인구 5천여 명의 나라. 바다처럼 맑고 순수한 사람들.<br>
+        밤이 되면 비행기 활주로에 모두 나와 함께 누워 별똥별을 바라보던 그 밤 —<br>
+        지금도 눈을 감으면 선명하게 떠오르는 곳입니다.
+      </p>
+
+      <div class="modal-video">
+        <video controls>
+          <source src="단독공연.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- 투발루 풍경 (Wikimedia Commons 공개 이미지) -->
+      <div class="modal-grid">
+        <img class="span2"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Funafuti_atoll_from_the_air_by_Jialiang_Gao.jpg/1280px-Funafuti_atoll_from_the_air_by_Jialiang_Gao.jpg"
+          alt="투발루 푸나푸티 환초 항공뷰" onclick="openLightbox(this.src)">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Tuvalu_Funafuti_Motu.jpg/640px-Tuvalu_Funafuti_Motu.jpg"
+          alt="투발루 해변" onclick="openLightbox(this.src)">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Tuvalu_Island.jpg/640px-Tuvalu_Island.jpg"
+          alt="투발루 섬" onclick="openLightbox(this.src)">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Funafuti_Atoll%2C_Tuvalu.jpg/640px-Funafuti_Atoll%2C_Tuvalu.jpg"
+          alt="투발루 항공뷰" onclick="openLightbox(this.src)">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Tuvalu_funafuti_beach.jpg/640px-Tuvalu_funafuti_beach.jpg"
+          alt="투발루 해변" onclick="openLightbox(this.src)">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Funafuti_airport_tuvalu.jpg/640px-Funafuti_airport_tuvalu.jpg"
+          alt="투발루 공항" onclick="openLightbox(this.src)">
+      </div>
+
+      <!-- 직접 찍은 사진 -->
+      <p class="my-photos-title">— 직접 담은 기억들</p>
+      <div class="my-grid">
+        <img src="첫수업_.JPG" alt="첫 수업" onclick="openLightbox(this.src)">
+        <img src="IMG_4590.JPG" alt="태권도 수업" onclick="openLightbox(this.src)">
+        <img src="IMG_4806.JPG" alt="투발루 바다" onclick="openLightbox(this.src)">
+        <img src="IMG_4691.JPG" alt="야자수" onclick="openLightbox(this.src)">
+        <img src="IMG_4695.JPG" alt="노을" onclick="openLightbox(this.src)">
+        <img src="IMG_4719.JPG" alt="일몰" onclick="openLightbox(this.src)">
+        <img src="IMG_4449.JPG" alt="활주로" onclick="openLightbox(this.src)">
+        <img src="20180113_095903.jpg" alt="활주로 옆" onclick="openLightbox(this.src)">
+      </div>
+
+    </div>
+  </div>
 
   <!-- 라이트박스 -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">✕</span>
-    <img id="lightbox-img" src="" alt="">
+    <span class="lightbox-x">✕</span>
+    <img id="lbImg" src="" alt="">
   </div>
 
-  <!-- HOBBY -->
-  <section id="hobby">
-    <div class="section-title">취미 &amp; <span>관심사</span></div>
-    <p class="section-sub">평소에 좋아하는 것들을 모아봤어요.</p>
-    <div class="hobby-grid">
-      <div class="hobby-card">
-        <div class="hobby-icon">🥋</div>
-        <div class="hobby-name">태권도</div>
-        <div class="hobby-desc">5단 사범으로서 태권도는 삶의 일부입니다. 몸과 마음을 단련하는 무도의 길.</div>
-      </div>
-      <div class="hobby-card">
-        <div class="hobby-icon">🌏</div>
-        <div class="hobby-name">여행 & 탐험</div>
-        <div class="hobby-desc">투발루처럼 낯선 곳, 새로운 사람들과의 만남을 즐깁니다. 세계 어딘가엔 아직 가보지 못한 별이 있습니다.</div>
-      </div>
-      <div class="hobby-card">
-        <div class="hobby-icon">📰</div>
-        <div class="hobby-name">정보수집 & 팩트체크</div>
-        <div class="hobby-desc">세상 곳곳의 정보를 모으고 사실을 확인하는 것. 일이자 취미이자 삶의 태도입니다.</div>
-      </div>
-      <div class="hobby-card">
-        <div class="hobby-icon">🌿</div>
-        <div class="hobby-name">기타</div>
-        <div class="hobby-desc">더 채워나갈 이야기들이 있습니다. 계속 업데이트할게요!</div>
-      </div>
-    </div>
-  </section>
-
   <script>
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('nav-' + id).classList.add('active');
+    function openTuvalu() {
+      document.getElementById('tuvaluModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
-
+    function closeTuvalu() {
+      document.getElementById('tuvaluModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
     function openLightbox(src) {
-      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lbImg').src = src;
       document.getElementById('lightbox').classList.add('open');
     }
-
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
     }
-
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape') { closeTuvalu(); closeLightbox(); }
     });
   </script>
 
