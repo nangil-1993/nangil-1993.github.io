@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>핫딜 레이더 🔥</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --card: #1c1c1c;
+      --border: #2a2a2a;
+      --accent: #ff4444;
+      --accent2: #ff8c00;
+      --text: #f0f0f0;
+      --muted: #666;
+      --green: #00c853;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0; z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-back {
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* HEADER */
+    .page-header {
+      padding: 48px 40px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 3px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .page-title span { color: var(--accent); }
+
+    .page-sub {
+      color: var(--muted);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .live-dot::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* 필터 바 */
+    .filter-bar {
+      padding: 0 40px 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .search-wrap {
+      margin-left: auto;
+      position: relative;
+    }
+
+    .search-input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 16px 7px 36px;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-family: 'Noto Sans KR', sans-serif;
+      width: 200px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--muted); }
+
+    .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.85rem;
+      pointer-events: none;
+    }
+
+    /* 딜 그리드 */
+    .deals-wrap {
+      padding: 0 40px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    /* 딜 카드 */
+    .deal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .deal-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .deal-card-top {
+      padding: 20px 20px 14px;
+      flex: 1;
+    }
+
+    .deal-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .deal-source {
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+
+    .source-ppomppu { background: rgba(255,68,68,0.15); color: var(--accent); }
+    .source-coupang  { background: rgba(255,100,0,0.15); color: #ff6400; }
+    .source-11st     { background: rgba(255,80,0,0.15);  color: #ff5000; }
+    .source-gmarket  { background: rgba(0,150,255,0.15); color: #0096ff; }
+
+    .deal-time {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .deal-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .deal-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .deal-card-bottom {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .deal-comments {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .deal-link-btn {
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* 핫 배지 */
+    .hot-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #fff;
+      margin-right: 4px;
+    }
+
+    /* 로딩 */
+    .loading-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      gap: 20px;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    /* 에러 */
+    .error-wrap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .error-icon { font-size: 2.5rem; }
+    .error-title { font-size: 1rem; font-weight: 500; }
+    .error-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; max-width: 360px; }
+
+    .retry-btn {
+      margin-top: 8px;
+      padding: 10px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .retry-btn:hover { opacity: 0.85; }
+
+    /* 업데이트 바 */
+    .update-bar {
+      text-align: center;
+      padding: 10px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .page-header { padding: 32px 20px 20px; }
+      .filter-bar { padding: 0 20px 20px; }
+      .deals-wrap { padding: 0 20px 48px; }
+      .deals-grid { grid-template-columns: 1fr; gap: 12px; }
+      .search-wrap { margin-left: 0; width: 100%; }
+      .search-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">HOT DEAL 🔥</a>
+    <a class="nav-back" href="index.html">← 홈으로</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-title">핫딜 <span>레이더</span></div>
+    <div class="page-sub">
+      <span class="live-dot">실시간 업데이트</span>
+      <span>뽐뿌 핫딜 · 자동 수집</span>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterDeals('all', this)">전체</button>
+    <button class="filter-btn" onclick="filterDeals('domestic', this)">국내쇼핑</button>
+    <button class="filter-btn" onclick="filterDeals('overseas', this)">해외쇼핑</button>
+    <button class="filter-btn" onclick="filterDeals('hot', this)">🔥 인기순</button>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="text" placeholder="키워드 검색..." oninput="searchDeals(this.value)">
+    </div>
+  </div>
+
+  <div class="deals-wrap">
+    <div id="loadingWrap" class="loading-wrap">
+      <div class="spinner"></div>
+      <div class="loading-text">핫딜 불러오는 중...</div>
+    </div>
+
+    <div id="errorWrap" class="error-wrap">
+      <div class="error-icon">📡</div>
+      <div class="error-title">데이터를 불러오지 못했어요</div>
+      <div class="error-desc">
+        브라우저 보안 정책(CORS)으로 인해 직접 연결이 차단됐어요.<br>
+        아래 버튼을 눌러 뽐뿌 핫딜 페이지로 바로 이동하거나,<br>
+        페이지를 새로고침 해보세요.
+      </div>
+      <button class="retry-btn" onclick="loadDeals()">다시 시도</button>
+      <a href="https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu" target="_blank" style="margin-top:8px; font-size:0.8rem; color:var(--accent);">뽐뿌 핫딜 직접 보기 →</a>
+    </div>
+
+    <div class="deals-grid" id="dealsGrid"></div>
+  </div>
+
+  <div class="update-bar" id="updateBar"></div>
+
+  <script>
+    let allDeals = [];
+    let currentFilter = 'all';
+    let currentKeyword = '';
+
+    // RSS 프록시 서비스 목록 (CORS 우회)
+    const PROXIES = [
+      src => `https://api.allorigins.win/get?url=${encodeURIComponent(src)}`,
+      src => `https://corsproxy.io/?${encodeURIComponent(src)}`,
+    ];
+
+    const FEEDS = [
+      {
+        url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu',
+        source: '뽐뿌 국내',
+        type: 'domestic'
+      },
+      {
+        url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu4',
+        source: '뽐뿌 해외',
+        type: 'overseas'
+      }
+    ];
+
+    async function fetchFeed(feed, proxyIdx = 0) {
+      if (proxyIdx >= PROXIES.length) throw new Error('모든 프록시 실패');
+      const proxyUrl = PROXIES[proxyIdx](feed.url);
+      const res = await fetch(proxyUrl);
+      if (!res.ok) return fetchFeed(feed, proxyIdx + 1);
+
+      let xmlText;
+      const data = await res.json();
+      // allorigins 형식
+      if (data.contents) xmlText = data.contents;
+      else xmlText = data;
+
+      if (typeof xmlText !== 'string') return fetchFeed(feed, proxyIdx + 1);
+
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, 'text/xml');
+      const items = [...xml.querySelectorAll('item')];
+
+      return items.map((item, i) => {
+        const title   = item.querySelector('title')?.textContent?.trim() || '제목 없음';
+        const link    = item.querySelector('link')?.textContent?.trim() || '#';
+        const desc    = item.querySelector('description')?.textContent?.replace(/<[^>]+>/g, '').trim() || '';
+        const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+        const comments = item.querySelector('comments')?.textContent?.trim() || '';
+
+        return {
+          title,
+          link,
+          desc,
+          pubDate,
+          comments,
+          source: feed.source,
+          type: feed.type,
+          hot: i < 5  // 상위 5개 핫 표시
+        };
+      });
+    }
+
+    async function loadDeals() {
+      document.getElementById('loadingWrap').style.display = 'flex';
+      document.getElementById('errorWrap').style.display = 'none';
+      document.getElementById('dealsGrid').innerHTML = '';
+      allDeals = [];
+
+      try {
+        const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
+        results.forEach(r => {
+          if (r.status === 'fulfilled' && r.value) {
+            allDeals.push(...r.value);
+          }
+        });
+
+        if (allDeals.length === 0) throw new Error('딜 없음');
+
+        // 최신순 정렬
+        allDeals.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        document.getElementById('loadingWrap').style.display = 'none';
+        renderDeals();
+        document.getElementById('updateBar').textContent =
+          `마지막 업데이트: ${new Date().toLocaleTimeString('ko-KR')} · 총 ${allDeals.length}개 딜`;
+
+      } catch (e) {
+        document.getElementById('loadingWrap').style.display = 'none';
+        document.getElementById('errorWrap').style.display = 'flex';
+      }
+    }
+
+    function renderDeals() {
+      let filtered = allDeals;
+
+      if (currentFilter === 'domestic') {
+        filtered = filtered.filter(d => d.type === 'domestic');
+      } else if (currentFilter === 'overseas') {
+        filtered = filtered.filter(d => d.type === 'overseas');
+      } else if (currentFilter === 'hot') {
+        filtered = [...filtered].sort((a, b) => {
+          const ca = parseInt(a.comments) || 0;
+          const cb = parseInt(b.comments) || 0;
+          return cb - ca;
+        });
+      }
+
+      if (currentKeyword) {
+        const kw = currentKeyword.toLowerCase();
+        filtered = filtered.filter(d =>
+          d.title.toLowerCase().includes(kw) ||
+          d.desc.toLowerCase().includes(kw)
+        );
+      }
+
+      const grid = document.getElementById('dealsGrid');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; padding:60px 20px; text-align:center; color:var(--muted); font-size:0.88rem;">검색 결과가 없어요 🔍</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(deal => `
+        <a class="deal-card" href="${deal.link}" target="_blank" rel="noopener">
+          <div class="deal-card-top">
+            <div class="deal-meta">
+              <span class="deal-source ${deal.type === 'overseas' ? 'source-gmarket' : 'source-ppomppu'}">
+                ${deal.source}
+              </span>
+              <span class="deal-time">${formatTime(deal.pubDate)}</span>
+            </div>
+            <div class="deal-title">
+              ${deal.hot ? '<span class="hot-badge">HOT</span>' : ''}${escHtml(deal.title)}
+            </div>
+            ${deal.desc ? `<div class="deal-desc">${escHtml(deal.desc.substring(0, 120))}</div>` : ''}
+          </div>
+          <div class="deal-card-bottom">
+            <span class="deal-comments">💬 댓글 ${deal.comments || 0}</span>
+            <span class="deal-link-btn">딜 보기 →</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function filterDeals(type, btn) {
+      currentFilter = type;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderDeals();
+    }
+
+    function searchDeals(keyword) {
+      currentKeyword = keyword;
+      renderDeals();
+    }
+
+    function formatTime(pubDate) {
+      if (!pubDate) return '';
+      const d = new Date(pubDate);
+      if (isNaN(d)) return '';
+      const now = new Date();
+      const diff = Math.floor((now - d) / 60000);
+      if (diff < 1) return '방금 전';
+      if (diff < 60) return `${diff}분 전`;
+      if (diff < 1440) return `${Math.floor(diff / 60)}시간 전`;
+      return `${Math.floor(diff / 1440)}일 전`;
+    }
+
+    function escHtml(str) {
+      return str
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
+    }
+
+    // 5분마다 자동 갱신
+    loadDeals();
+    setInterval(loadDeals, 5 * 60 * 1000);
+  </script>
+
+</body>
+</html>
