@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>핫딜 레이더 🔥</title>
+  <title>난딜 🔥</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -12,7 +12,6 @@
       --card: #1c1c1c;
       --border: #2a2a2a;
       --accent: #ff4444;
-      --accent2: #ff8c00;
       --text: #f0f0f0;
       --muted: #666;
       --green: #00c853;
@@ -31,338 +30,235 @@
 
     /* NAV */
     nav {
-      position: sticky;
-      top: 0; z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 16px 40px;
-      background: rgba(13,13,13,0.95);
+      background: rgba(13,13,13,0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 3px;
-      color: var(--accent);
-      text-decoration: none;
+      font-size: 1.6rem; letter-spacing: 4px;
+      color: var(--accent); text-decoration: none;
     }
-
+    .nav-right { display: flex; align-items: center; gap: 20px; }
     .nav-back {
-      font-size: 0.78rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
+      font-size: 0.75rem; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
     }
     .nav-back:hover { color: var(--text); }
+    .live-dot {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--green); font-size: 0.75rem; font-weight: 500;
+    }
+    .live-dot::before {
+      content: ''; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
 
     /* HEADER */
     .page-header {
-      padding: 48px 40px 32px;
-      max-width: 1100px;
-      margin: 0 auto;
+      padding: 40px 40px 24px;
+      max-width: 1100px; margin: 0 auto;
     }
-
     .page-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      letter-spacing: 3px;
-      line-height: 1;
-      margin-bottom: 10px;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      letter-spacing: 4px; line-height: 1; margin-bottom: 8px;
     }
-
     .page-title span { color: var(--accent); }
+    .page-sub { color: var(--muted); font-size: 0.82rem; }
 
-    .page-sub {
-      color: var(--muted);
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
+    /* 커뮤니티 필터 */
+    .community-bar {
+      padding: 0 40px 20px;
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
     }
 
-    .live-dot {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--green);
-      font-size: 0.78rem;
-      font-weight: 500;
+    .comm-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface); color: var(--muted);
+      font-size: 0.76rem; font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
+    .comm-btn img { width: 14px; height: 14px; border-radius: 2px; }
+    .comm-btn:hover { border-color: var(--accent); color: var(--text); }
+    .comm-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    .live-dot::before {
-      content: '';
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
-    }
-
-    /* 필터 바 */
+    /* 카테고리 + 검색 */
     .filter-bar {
       padding: 0 40px 28px;
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
     }
-
     .filter-btn {
-      padding: 7px 16px;
-      border-radius: 20px;
+      padding: 6px 14px; border-radius: 20px;
       border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-family: 'Noto Sans KR', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.5px;
+      background: var(--surface); color: var(--muted);
+      font-size: 0.76rem; font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; transition: all 0.2s;
     }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent); border-color: var(--accent); color: #fff;
     }
-
-    .search-wrap {
-      margin-left: auto;
-      position: relative;
-    }
-
+    .search-wrap { margin-left: auto; position: relative; }
     .search-input {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 7px 16px 7px 36px;
-      color: var(--text);
-      font-size: 0.78rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 7px 16px 7px 34px;
+      color: var(--text); font-size: 0.76rem;
       font-family: 'Noto Sans KR', sans-serif;
-      width: 200px;
-      transition: border-color 0.2s;
-      outline: none;
+      width: 200px; outline: none; transition: border-color 0.2s;
     }
-
     .search-input:focus { border-color: var(--accent); }
     .search-input::placeholder { color: var(--muted); }
-
     .search-icon {
-      position: absolute;
-      left: 12px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 0.85rem;
-      pointer-events: none;
+      position: absolute; left: 11px; top: 50%;
+      transform: translateY(-50%); color: var(--muted);
+      font-size: 0.8rem; pointer-events: none;
     }
 
     /* 딜 그리드 */
     .deals-wrap {
       padding: 0 40px 60px;
-      max-width: 1100px;
-      margin: 0 auto;
+      max-width: 1100px; margin: 0 auto;
     }
-
     .deals-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
 
     /* 딜 카드 */
     .deal-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 12px; overflow: hidden;
       transition: border-color 0.25s, transform 0.25s;
-      cursor: pointer;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
+      cursor: pointer; text-decoration: none;
+      display: flex; flex-direction: column;
+      -webkit-tap-highlight-color: transparent;
     }
-
     .deal-card:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
     }
+    .deal-card:active { transform: translateY(0); }
 
-    .deal-card-top {
-      padding: 20px 20px 14px;
-      flex: 1;
-    }
+    .deal-card-top { padding: 18px 18px 12px; flex: 1; }
 
     .deal-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
     }
-
     .deal-source {
-      font-size: 0.68rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 3px;
-      font-weight: 500;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.68rem; letter-spacing: 0.5px;
+      padding: 2px 8px; border-radius: 3px; font-weight: 500;
     }
+    .deal-source img { width: 12px; height: 12px; border-radius: 2px; }
 
-    .source-ppomppu { background: rgba(255,68,68,0.15); color: var(--accent); }
-    .source-coupang  { background: rgba(255,100,0,0.15); color: #ff6400; }
-    .source-11st     { background: rgba(255,80,0,0.15);  color: #ff5000; }
-    .source-gmarket  { background: rgba(0,150,255,0.15); color: #0096ff; }
+    .src-ppomppu   { background: rgba(255,68,68,0.15); color: #ff6b6b; }
+    .src-fmkorea   { background: rgba(255,140,0,0.15); color: #ffa040; }
+    .src-quasar    { background: rgba(80,180,255,0.15); color: #50b4ff; }
+    .src-ruliweb   { background: rgba(100,200,100,0.15); color: #64c864; }
+    .src-arcalive  { background: rgba(180,100,255,0.15); color: #b464ff; }
+    .src-dogdrip   { background: rgba(255,200,50,0.15); color: #ffc832; }
 
-    .deal-time {
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-left: auto;
-    }
+    .deal-time { font-size: 0.68rem; color: var(--muted); margin-left: auto; }
 
     .deal-title {
-      font-size: 0.92rem;
-      font-weight: 500;
-      line-height: 1.55;
-      color: var(--text);
-      margin-bottom: 10px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 0.9rem; font-weight: 500;
+      line-height: 1.55; color: var(--text); margin-bottom: 8px;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
-
     .deal-desc {
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 0.76rem; color: var(--muted); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
     }
 
     .deal-card-bottom {
-      padding: 12px 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      padding: 10px 18px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
     }
-
-    .deal-comments {
-      font-size: 0.75rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
+    .deal-comments { font-size: 0.72rem; color: var(--muted); }
     .deal-link-btn {
-      font-size: 0.72rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 500;
+      font-size: 0.7rem; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--accent); font-weight: 500;
     }
 
-    /* 핫 배지 */
     .hot-badge {
-      display: inline-block;
-      padding: 1px 7px;
-      border-radius: 3px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      background: var(--accent);
-      color: #fff;
-      margin-right: 4px;
+      display: inline-block; padding: 1px 6px; border-radius: 3px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 1px;
+      background: var(--accent); color: #fff; margin-right: 4px;
+      vertical-align: middle;
     }
 
-    /* 로딩 */
+    /* 로딩 / 에러 */
     .loading-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      gap: 20px;
-      color: var(--muted);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 80px 20px; gap: 18px; color: var(--muted);
     }
-
     .spinner {
-      width: 36px; height: 36px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      width: 34px; height: 34px;
+      border: 2px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 0.83rem; letter-spacing: 1px; }
 
-    .loading-text {
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-    }
-
-    /* 에러 */
     .error-wrap {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 20px;
-      gap: 16px;
-      text-align: center;
+      display: none; flex-direction: column;
+      align-items: center; padding: 60px 20px;
+      gap: 14px; text-align: center;
     }
-
-    .error-icon { font-size: 2.5rem; }
-    .error-title { font-size: 1rem; font-weight: 500; }
-    .error-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; max-width: 360px; }
-
+    .error-icon { font-size: 2.2rem; }
+    .error-title { font-size: 0.95rem; font-weight: 500; }
+    .error-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.75; max-width: 340px; }
     .retry-btn {
-      margin-top: 8px;
-      padding: 10px 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      font-family: 'Noto Sans KR', sans-serif;
-      cursor: pointer;
-      transition: opacity 0.2s;
+      margin-top: 6px; padding: 10px 24px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 6px;
+      font-size: 0.8rem; font-family: 'Noto Sans KR', sans-serif;
+      cursor: pointer; transition: opacity 0.2s;
     }
     .retry-btn:hover { opacity: 0.85; }
 
     /* 업데이트 바 */
     .update-bar {
-      text-align: center;
-      padding: 10px;
-      font-size: 0.72rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      margin-top: 32px;
+      text-align: center; padding: 12px;
+      font-size: 0.7rem; color: var(--muted);
+      border-top: 1px solid var(--border); margin-top: 20px;
+    }
+
+    /* 빈 결과 */
+    .empty-msg {
+      grid-column: 1 / -1; padding: 60px 20px;
+      text-align: center; color: var(--muted); font-size: 0.86rem;
     }
 
     /* 반응형 */
     @media (max-width: 768px) {
       nav { padding: 14px 20px; }
-      .page-header { padding: 32px 20px 20px; }
-      .filter-bar { padding: 0 20px 20px; }
+      .page-header { padding: 28px 20px 16px; }
+      .community-bar { padding: 0 20px 16px; }
+      .filter-bar { padding: 0 20px 20px; margin-bottom: 20px; }
       .deals-wrap { padding: 0 20px 48px; }
-      .deals-grid { grid-template-columns: 1fr; gap: 12px; }
+      .deals-grid { grid-template-columns: 1fr; gap: 10px; }
       .search-wrap { margin-left: 0; width: 100%; }
       .search-input { width: 100%; }
     }
@@ -370,234 +266,271 @@
 </head>
 <body>
 
-  <nav>
-    <a class="nav-logo" href="#">HOT DEAL 🔥</a>
+<nav>
+  <a class="nav-logo" href="#">난딜</a>
+  <div class="nav-right">
+    <span class="live-dot">실시간</span>
     <a class="nav-back" href="index.html">← 홈으로</a>
-  </nav>
-
-  <div class="page-header">
-    <div class="page-title">핫딜 <span>레이더</span></div>
-    <div class="page-sub">
-      <span class="live-dot">실시간 업데이트</span>
-      <span>뽐뿌 핫딜 · 자동 수집</span>
-    </div>
   </div>
+</nav>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterDeals('all', this)">전체</button>
-    <button class="filter-btn" onclick="filterDeals('domestic', this)">국내쇼핑</button>
-    <button class="filter-btn" onclick="filterDeals('overseas', this)">해외쇼핑</button>
-    <button class="filter-btn" onclick="filterDeals('hot', this)">🔥 인기순</button>
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" type="text" placeholder="키워드 검색..." oninput="searchDeals(this.value)">
-    </div>
+<div class="page-header">
+  <div class="page-title">난<span>딜</span> 🔥</div>
+  <div class="page-sub">FM코리아 · 퀘이사존 · 뽐뿌 · 루리웹 · 아카라이브 · 개드립 실시간 핫딜 모음</div>
+</div>
+
+<!-- 커뮤니티 선택 -->
+<div class="community-bar" id="commBar">
+  <button class="comm-btn active" data-comm="all" onclick="selectComm('all', this)">전체</button>
+  <button class="comm-btn" data-comm="fmkorea" onclick="selectComm('fmkorea', this)">
+    <img src="https://hotdeal.zip/site_favicon/fmkorea.ico" onerror="this.style.display='none'"> FM코리아
+  </button>
+  <button class="comm-btn" data-comm="quasar" onclick="selectComm('quasar', this)">
+    <img src="https://hotdeal.zip/site_favicon/quasarzone.ico" onerror="this.style.display='none'"> 퀘이사존
+  </button>
+  <button class="comm-btn" data-comm="ppomppu" onclick="selectComm('ppomppu', this)">
+    <img src="https://hotdeal.zip/site_favicon/ppomppu.ico" onerror="this.style.display='none'"> 뽐뿌
+  </button>
+  <button class="comm-btn" data-comm="ruliweb" onclick="selectComm('ruliweb', this)">
+    <img src="https://hotdeal.zip/site_favicon/ruliweb.ico" onerror="this.style.display='none'"> 루리웹
+  </button>
+  <button class="comm-btn" data-comm="arcalive" onclick="selectComm('arcalive', this)">
+    <img src="https://hotdeal.zip/site_favicon/arcalive.ico" onerror="this.style.display='none'"> 아카라이브
+  </button>
+  <button class="comm-btn" data-comm="dogdrip" onclick="selectComm('dogdrip', this)">
+    <img src="https://hotdeal.zip/site_favicon/dogdrip.ico" onerror="this.style.display='none'"> 개드립
+  </button>
+</div>
+
+<!-- 카테고리 + 검색 -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCat('all', this)">전체</button>
+  <button class="filter-btn" onclick="filterCat('hot', this)">🔥 인기</button>
+  <button class="filter-btn" onclick="filterCat('overseas', this)">해외핫딜</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="키워드 검색..." oninput="searchDeals(this.value)">
   </div>
+</div>
 
-  <div class="deals-wrap">
-    <div id="loadingWrap" class="loading-wrap">
-      <div class="spinner"></div>
-      <div class="loading-text">핫딜 불러오는 중...</div>
-    </div>
-
-    <div id="errorWrap" class="error-wrap">
-      <div class="error-icon">📡</div>
-      <div class="error-title">데이터를 불러오지 못했어요</div>
-      <div class="error-desc">
-        브라우저 보안 정책(CORS)으로 인해 직접 연결이 차단됐어요.<br>
-        아래 버튼을 눌러 뽐뿌 핫딜 페이지로 바로 이동하거나,<br>
-        페이지를 새로고침 해보세요.
-      </div>
-      <button class="retry-btn" onclick="loadDeals()">다시 시도</button>
-      <a href="https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu" target="_blank" style="margin-top:8px; font-size:0.8rem; color:var(--accent);">뽐뿌 핫딜 직접 보기 →</a>
-    </div>
-
-    <div class="deals-grid" id="dealsGrid"></div>
+<div class="deals-wrap">
+  <div id="loadingWrap" class="loading-wrap">
+    <div class="spinner"></div>
+    <div class="loading-text">핫딜 수집 중...</div>
   </div>
+  <div id="errorWrap" class="error-wrap">
+    <div class="error-icon">📡</div>
+    <div class="error-title">데이터를 불러오지 못했어요</div>
+    <div class="error-desc">
+      브라우저 보안 정책으로 일시적으로 차단됐어요.<br>
+      잠시 후 다시 시도하거나 직접 방문해보세요.
+    </div>
+    <button class="retry-btn" onclick="loadAll()">다시 시도</button>
+    <a href="https://hotdeal.zip" target="_blank" style="margin-top:8px; font-size:0.78rem; color:var(--accent);">핫딜모음 직접 보기 →</a>
+  </div>
+  <div class="deals-grid" id="dealsGrid"></div>
+</div>
 
-  <div class="update-bar" id="updateBar"></div>
+<div class="update-bar" id="updateBar"></div>
 
-  <script>
-    let allDeals = [];
-    let currentFilter = 'all';
-    let currentKeyword = '';
+<script>
+  let allDeals = [];
+  let currentComm = 'all';
+  let currentCat = 'all';
+  let currentKeyword = '';
 
-    // RSS 프록시 서비스 목록 (CORS 우회)
-    const PROXIES = [
-      src => `https://api.allorigins.win/get?url=${encodeURIComponent(src)}`,
-      src => `https://corsproxy.io/?${encodeURIComponent(src)}`,
-    ];
+  // RSS 피드 목록
+  const FEEDS = [
+    {
+      url: 'https://www.fmkorea.com/hotdeal.xml',
+      comm: 'fmkorea', label: 'FM코리아',
+      srcClass: 'src-fmkorea', type: 'domestic'
+    },
+    {
+      url: 'https://quasarzone.com/bbs/rss.php?bo_table=bbs_sale',
+      comm: 'quasar', label: '퀘이사존',
+      srcClass: 'src-quasar', type: 'domestic'
+    },
+    {
+      url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu',
+      comm: 'ppomppu', label: '뽐뿌',
+      srcClass: 'src-ppomppu', type: 'domestic'
+    },
+    {
+      url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu4',
+      comm: 'ppomppu', label: '뽐뿌 해외',
+      srcClass: 'src-ppomppu', type: 'overseas'
+    },
+    {
+      url: 'https://bbs.ruliweb.com/market/board/1020/rss',
+      comm: 'ruliweb', label: '루리웹',
+      srcClass: 'src-ruliweb', type: 'domestic'
+    },
+    {
+      url: 'https://arca.live/b/hotdeal.rss',
+      comm: 'arcalive', label: '아카라이브',
+      srcClass: 'src-arcalive', type: 'domestic'
+    },
+    {
+      url: 'https://www.dogdrip.net/hotdeal/rss',
+      comm: 'dogdrip', label: '개드립',
+      srcClass: 'src-dogdrip', type: 'domestic'
+    },
+  ];
 
-    const FEEDS = [
-      {
-        url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu',
-        source: '뽐뿌 국내',
-        type: 'domestic'
-      },
-      {
-        url: 'https://www.ppomppu.co.kr/rss.php?id=ppomppu4',
-        source: '뽐뿌 해외',
-        type: 'overseas'
-      }
-    ];
+  // CORS 프록시
+  const PROXIES = [
+    u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  ];
 
-    async function fetchFeed(feed, proxyIdx = 0) {
-      if (proxyIdx >= PROXIES.length) throw new Error('모든 프록시 실패');
-      const proxyUrl = PROXIES[proxyIdx](feed.url);
-      const res = await fetch(proxyUrl);
-      if (!res.ok) return fetchFeed(feed, proxyIdx + 1);
-
-      let xmlText;
+  async function fetchFeed(feed, pi = 0) {
+    if (pi >= PROXIES.length) throw new Error('failed');
+    try {
+      const res = await fetch(PROXIES[pi](feed.url), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) return fetchFeed(feed, pi + 1);
       const data = await res.json();
-      // allorigins 형식
-      if (data.contents) xmlText = data.contents;
-      else xmlText = data;
+      const xml = data.contents || data;
+      if (typeof xml !== 'string') return fetchFeed(feed, pi + 1);
 
-      if (typeof xmlText !== 'string') return fetchFeed(feed, proxyIdx + 1);
+      const doc = new DOMParser().parseFromString(xml, 'text/xml');
+      const items = [...doc.querySelectorAll('item')];
+      if (!items.length) return [];
 
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(xmlText, 'text/xml');
-      const items = [...xml.querySelectorAll('item')];
-
-      return items.map((item, i) => {
-        const title   = item.querySelector('title')?.textContent?.trim() || '제목 없음';
-        const link    = item.querySelector('link')?.textContent?.trim() || '#';
-        const desc    = item.querySelector('description')?.textContent?.replace(/<[^>]+>/g, '').trim() || '';
-        const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-        const comments = item.querySelector('comments')?.textContent?.trim() || '';
+      return items.slice(0, 30).map((item, i) => {
+        const title    = clean(item.querySelector('title')?.textContent || '');
+        const link     = clean(item.querySelector('link')?.textContent || item.querySelector('guid')?.textContent || '#');
+        const desc     = stripHtml(item.querySelector('description')?.textContent || '');
+        const pubDate  = clean(item.querySelector('pubDate')?.textContent || '');
+        const comments = clean(item.querySelector('comments')?.textContent || '0');
 
         return {
-          title,
-          link,
-          desc,
-          pubDate,
-          comments,
-          source: feed.source,
+          title, link, desc, pubDate, comments,
+          comm: feed.comm,
+          label: feed.label,
+          srcClass: feed.srcClass,
           type: feed.type,
-          hot: i < 5  // 상위 5개 핫 표시
+          hot: i < 3
         };
-      });
+      }).filter(d => d.title && d.link !== '#');
+
+    } catch {
+      return fetchFeed(feed, pi + 1);
+    }
+  }
+
+  async function loadAll() {
+    show('loading');
+    allDeals = [];
+
+    const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
+    results.forEach(r => {
+      if (r.status === 'fulfilled' && Array.isArray(r.value)) {
+        allDeals.push(...r.value);
+      }
+    });
+
+    if (!allDeals.length) { show('error'); return; }
+
+    // 최신순 정렬
+    allDeals.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+    show('grid');
+    renderDeals();
+    document.getElementById('updateBar').textContent =
+      `마지막 업데이트: ${new Date().toLocaleTimeString('ko-KR')} · 총 ${allDeals.length}개 딜 수집`;
+  }
+
+  function renderDeals() {
+    let list = allDeals;
+
+    if (currentComm !== 'all') list = list.filter(d => d.comm === currentComm);
+    if (currentCat === 'hot') list = [...list].sort((a, b) => (parseInt(b.comments)||0) - (parseInt(a.comments)||0));
+    if (currentCat === 'overseas') list = list.filter(d => d.type === 'overseas');
+    if (currentKeyword) {
+      const kw = currentKeyword.toLowerCase();
+      list = list.filter(d => d.title.toLowerCase().includes(kw) || d.desc.toLowerCase().includes(kw));
     }
 
-    async function loadDeals() {
-      document.getElementById('loadingWrap').style.display = 'flex';
-      document.getElementById('errorWrap').style.display = 'none';
-      document.getElementById('dealsGrid').innerHTML = '';
-      allDeals = [];
-
-      try {
-        const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
-        results.forEach(r => {
-          if (r.status === 'fulfilled' && r.value) {
-            allDeals.push(...r.value);
-          }
-        });
-
-        if (allDeals.length === 0) throw new Error('딜 없음');
-
-        // 최신순 정렬
-        allDeals.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-        document.getElementById('loadingWrap').style.display = 'none';
-        renderDeals();
-        document.getElementById('updateBar').textContent =
-          `마지막 업데이트: ${new Date().toLocaleTimeString('ko-KR')} · 총 ${allDeals.length}개 딜`;
-
-      } catch (e) {
-        document.getElementById('loadingWrap').style.display = 'none';
-        document.getElementById('errorWrap').style.display = 'flex';
-      }
+    const grid = document.getElementById('dealsGrid');
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty-msg">검색 결과가 없어요 🔍</div>`;
+      return;
     }
 
-    function renderDeals() {
-      let filtered = allDeals;
-
-      if (currentFilter === 'domestic') {
-        filtered = filtered.filter(d => d.type === 'domestic');
-      } else if (currentFilter === 'overseas') {
-        filtered = filtered.filter(d => d.type === 'overseas');
-      } else if (currentFilter === 'hot') {
-        filtered = [...filtered].sort((a, b) => {
-          const ca = parseInt(a.comments) || 0;
-          const cb = parseInt(b.comments) || 0;
-          return cb - ca;
-        });
-      }
-
-      if (currentKeyword) {
-        const kw = currentKeyword.toLowerCase();
-        filtered = filtered.filter(d =>
-          d.title.toLowerCase().includes(kw) ||
-          d.desc.toLowerCase().includes(kw)
-        );
-      }
-
-      const grid = document.getElementById('dealsGrid');
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div style="grid-column:1/-1; padding:60px 20px; text-align:center; color:var(--muted); font-size:0.88rem;">검색 결과가 없어요 🔍</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(deal => `
-        <a class="deal-card" href="${deal.link}" target="_blank" rel="noopener">
-          <div class="deal-card-top">
-            <div class="deal-meta">
-              <span class="deal-source ${deal.type === 'overseas' ? 'source-gmarket' : 'source-ppomppu'}">
-                ${deal.source}
-              </span>
-              <span class="deal-time">${formatTime(deal.pubDate)}</span>
-            </div>
-            <div class="deal-title">
-              ${deal.hot ? '<span class="hot-badge">HOT</span>' : ''}${escHtml(deal.title)}
-            </div>
-            ${deal.desc ? `<div class="deal-desc">${escHtml(deal.desc.substring(0, 120))}</div>` : ''}
+    grid.innerHTML = list.map(d => `
+      <a class="deal-card" href="${d.link}" target="_blank" rel="noopener noreferrer">
+        <div class="deal-card-top">
+          <div class="deal-meta">
+            <span class="deal-source ${d.srcClass}">
+              <img src="https://hotdeal.zip/site_favicon/${faviconName(d.comm)}" onerror="this.style.display='none'">
+              ${d.label}
+            </span>
+            <span class="deal-time">${formatTime(d.pubDate)}</span>
           </div>
-          <div class="deal-card-bottom">
-            <span class="deal-comments">💬 댓글 ${deal.comments || 0}</span>
-            <span class="deal-link-btn">딜 보기 →</span>
+          <div class="deal-title">
+            ${d.hot ? '<span class="hot-badge">HOT</span>' : ''}${esc(d.title)}
           </div>
-        </a>
-      `).join('');
-    }
+          ${d.desc ? `<div class="deal-desc">${esc(d.desc.slice(0, 100))}</div>` : ''}
+        </div>
+        <div class="deal-card-bottom">
+          <span class="deal-comments">💬 ${d.comments || 0}</span>
+          <span class="deal-link-btn">딜 보기 →</span>
+        </div>
+      </a>
+    `).join('');
+  }
 
-    function filterDeals(type, btn) {
-      currentFilter = type;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderDeals();
-    }
+  function selectComm(comm, btn) {
+    currentComm = comm;
+    document.querySelectorAll('.comm-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDeals();
+  }
 
-    function searchDeals(keyword) {
-      currentKeyword = keyword;
-      renderDeals();
-    }
+  function filterCat(cat, btn) {
+    currentCat = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDeals();
+  }
 
-    function formatTime(pubDate) {
-      if (!pubDate) return '';
-      const d = new Date(pubDate);
-      if (isNaN(d)) return '';
-      const now = new Date();
-      const diff = Math.floor((now - d) / 60000);
-      if (diff < 1) return '방금 전';
-      if (diff < 60) return `${diff}분 전`;
-      if (diff < 1440) return `${Math.floor(diff / 60)}시간 전`;
-      return `${Math.floor(diff / 1440)}일 전`;
-    }
+  function searchDeals(kw) {
+    currentKeyword = kw;
+    renderDeals();
+  }
 
-    function escHtml(str) {
-      return str
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#039;/g, "'");
-    }
+  function show(state) {
+    document.getElementById('loadingWrap').style.display = state === 'loading' ? 'flex' : 'none';
+    document.getElementById('errorWrap').style.display   = state === 'error'   ? 'flex' : 'none';
+    document.getElementById('dealsGrid').style.display   = state === 'grid'    ? 'grid' : 'none';
+  }
 
-    // 5분마다 자동 갱신
-    loadDeals();
-    setInterval(loadDeals, 5 * 60 * 1000);
-  </script>
+  function faviconName(comm) {
+    const map = { fmkorea: 'fmkorea.ico', quasar: 'quasarzone.ico', ppomppu: 'ppomppu.ico', ruliweb: 'ruliweb.ico', arcalive: 'arcalive.ico', dogdrip: 'dogdrip.ico' };
+    return map[comm] || '';
+  }
+
+  function formatTime(s) {
+    if (!s) return '';
+    const d = new Date(s); if (isNaN(d)) return '';
+    const m = Math.floor((Date.now() - d) / 60000);
+    if (m < 1) return '방금 전';
+    if (m < 60) return `${m}분 전`;
+    if (m < 1440) return `${Math.floor(m/60)}시간 전`;
+    return `${Math.floor(m/1440)}일 전`;
+  }
+
+  function clean(s) { return s?.trim() || ''; }
+  function stripHtml(s) { return s.replace(/<[^>]+>/g, '').trim(); }
+  function esc(s) {
+    return s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#039;/g,"'");
+  }
+
+  // 초기 로딩 + 5분 자동 갱신
+  loadAll();
+  setInterval(loadAll, 5 * 60 * 1000);
+</script>
 
 </body>
 </html>
