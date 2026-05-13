@@ -378,51 +378,67 @@
     },
   ];
 
-  // CORS 프록시
+  // CORS 프록시 목록 (순서대로 시도)
   const PROXIES = [
+    u => `https://corsproxy.io/?apikey=df60efc2&url=${encodeURIComponent(u)}`,
     u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
-    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://thingproxy.freeboard.io/fetch/${u}`,
+    u => `https://proxy.cors.sh/${u}`,
   ];
 
-  async function fetchFeed(feed, pi = 0) {
-    if (pi >= PROXIES.length) throw new Error('failed');
-    try {
-      const res = await fetch(PROXIES[pi](feed.url), { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) return fetchFeed(feed, pi + 1);
+  async function tryProxy(url, pi) {
+    const proxyUrl = PROXIES[pi](url);
+    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(7000) });
+    if (!res.ok) throw new Error('not ok');
+    const ct = res.headers.get('content-type') || '';
+    // allorigins는 JSON으로 감싸서 옴
+    if (ct.includes('json')) {
       const data = await res.json();
-      const xml = data.contents || data;
-      if (typeof xml !== 'string') return fetchFeed(feed, pi + 1);
-
-      const doc = new DOMParser().parseFromString(xml, 'text/xml');
-      const items = [...doc.querySelectorAll('item')];
-      if (!items.length) return [];
-
-      return items.slice(0, 30).map((item, i) => {
-        const title    = clean(item.querySelector('title')?.textContent || '');
-        const link     = clean(item.querySelector('link')?.textContent || item.querySelector('guid')?.textContent || '#');
-        const desc     = stripHtml(item.querySelector('description')?.textContent || '');
-        const pubDate  = clean(item.querySelector('pubDate')?.textContent || '');
-        const comments = clean(item.querySelector('comments')?.textContent || '0');
-
-        return {
-          title, link, desc, pubDate, comments,
-          comm: feed.comm,
-          label: feed.label,
-          srcClass: feed.srcClass,
-          type: feed.type,
-          hot: i < 3
-        };
-      }).filter(d => d.title && d.link !== '#');
-
-    } catch {
-      return fetchFeed(feed, pi + 1);
+      return data.contents || JSON.stringify(data);
     }
+    return await res.text();
+  }
+
+  function parseXml(xmlText, feed) {
+    const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+    const items = [...doc.querySelectorAll('item')];
+    if (!items.length) return null;
+
+    return items.slice(0, 30).map((item, i) => {
+      const title   = clean(item.querySelector('title')?.textContent || '');
+      const rawLink = item.querySelector('link')?.textContent
+                   || item.querySelector('guid')?.textContent || '';
+      const link    = clean(rawLink).startsWith('http') ? clean(rawLink) : '#';
+      const desc    = stripHtml(item.querySelector('description')?.textContent || '');
+      const pubDate = clean(item.querySelector('pubDate')?.textContent || '');
+      const comments = clean(item.querySelector('comments')?.textContent || '0');
+
+      return {
+        title, link, desc, pubDate, comments,
+        comm: feed.comm, label: feed.label,
+        srcClass: feed.srcClass, type: feed.type,
+        hot: i < 3
+      };
+    }).filter(d => d.title && d.link !== '#');
+  }
+
+  async function fetchFeed(feed) {
+    for (let pi = 0; pi < PROXIES.length; pi++) {
+      try {
+        const xmlText = await tryProxy(feed.url, pi);
+        if (!xmlText || xmlText.length < 50) continue;
+        const items = parseXml(xmlText, feed);
+        if (items && items.length > 0) return items;
+      } catch { /* 다음 프록시 시도 */ }
+    }
+    return []; // 모든 프록시 실패시 빈 배열
   }
 
   async function loadAll() {
     show('loading');
     allDeals = [];
 
+    // 모든 피드 병렬로 요청
     const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f)));
     results.forEach(r => {
       if (r.status === 'fulfilled' && Array.isArray(r.value)) {
@@ -430,7 +446,10 @@
       }
     });
 
-    if (!allDeals.length) { show('error'); return; }
+    if (!allDeals.length) {
+      show('error');
+      return;
+    }
 
     // 최신순 정렬
     allDeals.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
