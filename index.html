@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>NANGIL — 난길</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f7f5f0;
@@ -16,7 +16,7 @@
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       background: var(--bg);
@@ -26,7 +26,7 @@
       overflow-x: hidden;
     }
 
-    /* NAV */
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -34,9 +34,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 60px;
-      background: rgba(247,245,240,0.88);
+      padding: 20px 48px;
+      background: rgba(247,245,240,0.92);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
     }
 
@@ -48,23 +49,29 @@
       text-decoration: none;
     }
 
-    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
     .nav-links a {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
       transition: color 0.3s;
     }
+
     .nav-links a:hover { color: var(--ink); }
 
-    /* HERO */
+    /* ── HERO ── */
     #hero {
-      min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       align-items: flex-end;
-      padding: 0 60px 80px;
+      padding: 100px 48px 72px;
       position: relative;
       overflow: hidden;
     }
@@ -72,23 +79,19 @@
     .hero-bg {
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse at 70% 40%, rgba(196,150,90,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(196,150,90,0.05) 0%, transparent 50%);
+        radial-gradient(ellipse at 70% 40%, rgba(196,150,90,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse at 15% 80%, rgba(196,150,90,0.06) 0%, transparent 50%);
+      pointer-events: none;
     }
 
-    .hero-line {
-      position: absolute; top: 0; bottom: 0; left: 50%;
-      width: 1px; background: var(--line); opacity: 0.6;
-    }
-
-    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-content { position: relative; z-index: 1; width: 100%; }
 
     .hero-eyebrow {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -96,267 +99,430 @@
     .hero-eyebrow::before {
       content: '';
       display: block;
-      width: 40px; height: 1px;
+      width: 32px; height: 1px;
       background: var(--accent);
+      flex-shrink: 0;
     }
 
     .hero-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(5rem, 12vw, 10rem);
+      font-size: clamp(4.5rem, 14vw, 11rem);
       font-weight: 300;
-      line-height: 0.9;
+      line-height: 0.88;
       letter-spacing: -2px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .hero-name em { font-style: italic; color: var(--accent); }
 
     .hero-desc {
-      font-size: 1rem;
+      font-size: clamp(0.88rem, 2vw, 1rem);
       color: var(--muted);
-      line-height: 1.9;
-      max-width: 480px;
+      line-height: 1.95;
+      max-width: 440px;
       border-left: 2px solid var(--accent);
-      padding-left: 20px;
+      padding-left: 18px;
     }
 
     .hero-scroll {
       position: absolute;
-      bottom: 40px; right: 60px;
+      bottom: 32px; right: 48px;
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+      font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
       color: var(--muted);
     }
     .hero-scroll::after {
       content: '';
-      display: block;
-      width: 1px; height: 50px;
+      width: 1px; height: 44px;
       background: var(--muted);
-      animation: scrollLine 1.8s ease-in-out infinite;
+      animation: scrollLine 2s ease-in-out infinite;
     }
     @keyframes scrollLine {
-      0%   { transform: scaleY(0); transform-origin: top; }
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      20%  { opacity: 1; }
       50%  { transform: scaleY(1); transform-origin: top; }
       51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
     }
 
-    /* SECTIONS */
+    /* ── SECTION 공통 ── */
+    .section-wrap {
+      border-top: 1px solid var(--line);
+    }
+
     .section {
-      padding: 120px 60px;
-      max-width: 1100px;
+      padding: 100px 48px;
+      max-width: 1080px;
       margin: 0 auto;
     }
 
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 48px;
-      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 52px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
     .section-label::after {
-      content: ''; flex: 1; height: 1px;
-      background: var(--line); max-width: 80px;
+      content: ''; height: 1px;
+      background: var(--line);
+      width: 60px;
     }
 
-    /* ABOUT */
-    #about { border-top: 1px solid var(--line); }
-
+    /* ── ABOUT ── */
     .about-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: start;
+      grid-template-columns: 2fr 3fr;
+      gap: 64px;
+      align-items: start;
     }
 
     .about-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      font-weight: 300; line-height: 1.1; letter-spacing: -1px;
-      margin-bottom: 32px;
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
     }
     .about-title em { font-style: italic; color: var(--accent); }
 
     .about-text {
-      color: var(--muted); font-size: 0.95rem;
-      line-height: 2; margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 2.05;
+      margin-bottom: 18px;
     }
 
     .about-quote {
-      margin-top: 40px; padding: 28px 32px;
+      margin-top: 36px;
+      padding: 24px 28px;
       background: var(--surface);
       border-left: 3px solid var(--accent);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem; font-style: italic;
-      line-height: 1.8; color: var(--ink);
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.8;
+      color: var(--ink);
     }
 
-    /* PORTFOLIO */
-    #portfolio { border-top: 1px solid var(--line); }
-
+    /* ── PORTFOLIO ── */
     .portfolio-items {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2px;
       background: var(--line);
       border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
     }
 
     .p-item {
-      background: var(--bg); padding: 48px 40px;
-      cursor: default;
+      background: var(--bg);
+      padding: 44px 36px;
       transition: background 0.3s;
-      position: relative; overflow: hidden;
     }
     .p-item.wide { grid-column: 1 / -1; }
 
-    .tuvalu-card { cursor: pointer; }
-    .tuvalu-card:hover { background: var(--surface); }
+    .tuvalu-card {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tuvalu-card:hover,
+    .tuvalu-card:active { background: var(--surface); }
+
     .tuvalu-card .p-title::after {
-      content: ' ↗'; font-size: 1.1rem;
-      color: var(--accent); opacity: 0; transition: opacity 0.2s;
+      content: ' ↗';
+      font-size: 1rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
     }
     .tuvalu-card:hover .p-title::after { opacity: 1; }
 
     .p-num {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem; font-weight: 300;
-      color: var(--line); line-height: 1; margin-bottom: 16px;
+      font-size: 3rem; font-weight: 300;
+      color: var(--line); line-height: 1;
+      margin-bottom: 14px;
     }
     .p-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem; font-weight: 400;
-      margin-bottom: 12px; line-height: 1.2;
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 10px;
     }
     .p-desc {
-      color: var(--muted); font-size: 0.85rem;
-      line-height: 1.8; max-width: 480px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.85;
     }
-    .p-tags { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .p-tags {
+      margin-top: 18px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
     .p-tag {
-      font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--accent); border: 1px solid rgba(196,150,90,0.3);
-      padding: 3px 10px; border-radius: 2px;
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(196,150,90,0.35);
+      padding: 3px 10px;
+      border-radius: 2px;
     }
 
-    /* TUVALU MODAL */
+    /* ── TUVALU MODAL ── */
     .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(26,24,20,0.93);
-      z-index: 200; overflow-y: auto;
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(22,20,16,0.94);
+      z-index: 200;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-overlay.open { display: block; }
 
-    .modal-inner { max-width: 960px; margin: 0 auto; padding: 80px 40px; }
+    .modal-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 64px 40px 80px;
+    }
 
     .modal-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 36px;
+      gap: 20px;
     }
 
     .modal-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem; font-weight: 300;
-      color: #f7f5f0; line-height: 1.1;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 300;
+      color: #f2efe8;
+      line-height: 1.15;
     }
     .modal-title em { font-style: italic; color: var(--accent); }
 
     .modal-close {
-      background: none; border: 1px solid rgba(247,245,240,0.2);
-      color: #f7f5f0; width: 44px; height: 44px; border-radius: 50%;
-      font-size: 1.2rem; cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+      background: none;
+      border: 1px solid rgba(242,239,232,0.25);
+      color: #f2efe8;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .modal-close:hover { background: rgba(247,245,240,0.1); }
+    .modal-close:hover,
+    .modal-close:active { background: rgba(242,239,232,0.12); }
 
     .modal-desc {
-      color: rgba(247,245,240,0.6); font-size: 0.95rem;
-      line-height: 2; max-width: 600px; margin-bottom: 48px;
+      color: rgba(242,239,232,0.58);
+      font-size: 0.92rem;
+      line-height: 2.05;
+      margin-bottom: 40px;
     }
 
     .modal-video {
-      width: 100%; border-radius: 8px; overflow: hidden;
-      margin-bottom: 40px; background: #000;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      background: #000;
     }
-    .modal-video video { width: 100%; max-height: 480px; object-fit: cover; display: block; }
+    .modal-video video {
+      width: 100%;
+      max-height: 460px;
+      object-fit: cover;
+      display: block;
+    }
 
-    /* 투발루 풍경 이미지 그리드 */
+    /* 투발루 풍경 */
     .modal-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px; margin-bottom: 40px;
+      gap: 6px;
+      margin-bottom: 36px;
     }
     .modal-grid img {
-      width: 100%; aspect-ratio: 4/3; object-fit: cover;
-      border-radius: 4px; cursor: pointer; transition: opacity 0.3s;
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      display: block;
+      transition: opacity 0.25s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .modal-grid img:hover { opacity: 0.8; }
+    .modal-grid img:hover,
+    .modal-grid img:active { opacity: 0.78; }
     .modal-grid .span2 { grid-column: span 2; aspect-ratio: 16/9; }
 
-    /* 내 사진 */
+    /* 직접 찍은 사진 */
     .my-photos-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem; font-style: italic;
-      color: rgba(247,245,240,0.5); margin-bottom: 14px;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: rgba(242,239,232,0.45);
+      margin-bottom: 12px;
     }
     .my-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
     }
     .my-grid img {
-      width: 100%; aspect-ratio: 1; object-fit: cover;
-      border-radius: 4px; cursor: pointer; transition: opacity 0.3s, transform 0.3s;
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      cursor: pointer;
+      display: block;
+      transition: opacity 0.25s, transform 0.25s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .my-grid img:hover { opacity: 0.8; transform: scale(1.02); }
+    .my-grid img:hover { opacity: 0.78; transform: scale(1.03); }
 
-    /* 라이트박스 */
+    /* ── 라이트박스 ── */
     .lightbox {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.95); z-index: 300;
-      align-items: center; justify-content: center;
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: 92vw; max-height: 92vh; object-fit: contain; border-radius: 4px; }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+      display: block;
+    }
     .lightbox-x {
-      position: absolute; top: 24px; right: 32px;
-      color: #fff; font-size: 1.8rem; cursor: pointer;
-      opacity: 0.6; transition: opacity 0.2s;
+      position: absolute;
+      top: 20px; right: 24px;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.2s;
+      line-height: 1;
+      padding: 8px;
+      -webkit-tap-highlight-color: transparent;
     }
-    .lightbox-x:hover { opacity: 1; }
+    .lightbox-x:hover,
+    .lightbox-x:active { opacity: 1; }
 
-    /* CONNECT */
-    #connect { border-top: 1px solid var(--line); }
-
-    .sns-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    /* ── CONNECT ── */
+    .sns-grid {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
     .sns-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 16px 28px; border: 1px solid var(--line); border-radius: 3px;
-      text-decoration: none; color: var(--ink);
-      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px;
-      transition: border-color 0.3s, background 0.3s; background: var(--bg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.84rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: border-color 0.3s, background 0.3s;
+      background: var(--bg);
+      -webkit-tap-highlight-color: transparent;
     }
-    .sns-link:hover { background: var(--surface); border-color: var(--accent); }
+    .sns-link:hover,
+    .sns-link:active { background: var(--surface); border-color: var(--accent); }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--line);
-      padding: 40px 60px;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.75rem; color: var(--muted); letter-spacing: 1px;
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 1px;
     }
 
-    /* 반응형 */
+    /* ════════════════════════════
+       모바일 반응형 (768px 이하)
+    ════════════════════════════ */
     @media (max-width: 768px) {
-      nav { padding: 18px 24px; }
-      .nav-links { gap: 20px; }
-      #hero { padding: 0 24px 60px; }
-      .hero-scroll { right: 24px; }
-      .section { padding: 80px 24px; }
-      .about-layout { grid-template-columns: 1fr; gap: 40px; }
-      .portfolio-items { grid-template-columns: 1fr; }
+      nav {
+        padding: 16px 20px;
+      }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 0.68rem; letter-spacing: 1.5px; }
+
+      #hero {
+        padding: 90px 20px 64px;
+        min-height: 100svh;
+        align-items: center;
+      }
+
+      .hero-name { letter-spacing: -1px; margin-bottom: 24px; }
+      .hero-desc { font-size: 0.88rem; max-width: 100%; }
+      .hero-scroll { right: 20px; bottom: 24px; }
+
+      .section { padding: 64px 20px; }
+      .section-label { margin-bottom: 36px; }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .about-quote { padding: 20px 22px; font-size: 1.05rem; }
+
+      .portfolio-items {
+        grid-template-columns: 1fr;
+      }
+      .p-item { padding: 32px 24px; }
       .p-item.wide { grid-column: 1; }
-      .modal-inner { padding: 60px 20px; }
-      .modal-grid { grid-template-columns: repeat(2, 1fr); }
+      .p-num { font-size: 2.4rem; margin-bottom: 10px; }
+
+      .modal-inner { padding: 48px 20px 64px; }
+      .modal-desc { font-size: 0.88rem; }
+      .modal-video video { max-height: 240px; }
+
+      .modal-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .modal-grid .span2 { grid-column: 1 / -1; aspect-ratio: 16/9; }
+
       .my-grid { grid-template-columns: repeat(2, 1fr); }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
+
+      .sns-grid { gap: 10px; }
+      .sns-link { padding: 12px 18px; font-size: 0.82rem; width: 100%; }
+
+      footer {
+        padding: 28px 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+    }
+
+    /* 작은 모바일 (390px 이하) */
+    @media (max-width: 390px) {
+      .hero-name { font-size: 3.8rem; }
+      .modal-grid { grid-template-columns: 1fr; }
+      .modal-grid .span2 { grid-column: 1; }
     }
   </style>
 </head>
@@ -366,7 +532,7 @@
     <a class="logo" href="#hero">NANGIL</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#portfolio">포트폴리오</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#connect">Contact</a></li>
     </ul>
   </nav>
@@ -374,7 +540,6 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg"></div>
-    <div class="hero-line"></div>
     <div class="hero-content">
       <div class="hero-eyebrow">난길 — 밝고 환한 앞날을 향해</div>
       <h1 class="hero-name">NANG<em>IL</em></h1>
@@ -384,7 +549,7 @@
   </section>
 
   <!-- ABOUT -->
-  <section id="about">
+  <div class="section-wrap" id="about">
     <div class="section">
       <div class="section-label">About</div>
       <div class="about-layout">
@@ -400,10 +565,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- PORTFOLIO -->
-  <section id="portfolio">
+  <div class="section-wrap" id="portfolio">
     <div class="section">
       <div class="section-label">Portfolio</div>
       <div class="portfolio-items">
@@ -440,16 +605,16 @@
 
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- CONNECT -->
-  <section id="connect">
+  <div class="section-wrap" id="connect">
     <div class="section">
       <div class="section-label">Connect</div>
       <div class="sns-grid">
 
-        <a href="https://www.instagram.com/btvt_1993" target="_blank" class="sns-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <a href="https://www.instagram.com/btvt_1993" target="_blank" rel="noopener" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <defs><linearGradient id="ig2" x1="0" y1="24" x2="24" y2="0">
               <stop offset="0%" stop-color="#f09433"/>
               <stop offset="50%" stop-color="#dc2743"/>
@@ -462,16 +627,16 @@
           Instagram
         </a>
 
-        <a href="https://blog.naver.com/dod000111" target="_blank" class="sns-link">
-          <svg width="20" height="20" viewBox="0 0 24 24">
+        <a href="https://blog.naver.com/dod000111" target="_blank" rel="noopener" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
             <rect width="24" height="24" rx="5" fill="#03C75A"/>
             <text x="4.5" y="17" font-size="13" font-weight="900" font-family="Arial" fill="white">N</text>
           </svg>
           Naver Blog
         </a>
 
-        <a href="https://x.com/nangil_8090" target="_blank" class="sns-link">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://x.com/nangil_8090" target="_blank" rel="noopener" class="sns-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L2.25 2.25h6.894l4.261 5.636 5.839-6.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
           X (Twitter)
@@ -479,66 +644,65 @@
 
       </div>
     </div>
-  </section>
+  </div>
 
   <footer>
-    <span>© 2024 NANGIL</span>
-    <span style="font-style:italic; font-family:'Cormorant Garamond', serif; font-size:0.9rem;">밝고 환한 앞날을 향해</span>
+    <span>© 2025 NANGIL</span>
+    <span style="font-style:italic; font-family:'Cormorant Garamond',serif; font-size:0.88rem; letter-spacing:0.5px;">밝고 환한 앞날을 향해</span>
   </footer>
 
   <!-- TUVALU MODAL -->
-  <div class="modal-overlay" id="tuvaluModal">
+  <div class="modal-overlay" id="tuvaluModal" role="dialog" aria-modal="true">
     <div class="modal-inner">
       <div class="modal-header">
         <div class="modal-title">투발루,<br><em>Tuvalu</em></div>
-        <button class="modal-close" onclick="closeTuvalu()">✕</button>
+        <button class="modal-close" onclick="closeTuvalu()" aria-label="닫기">✕</button>
       </div>
+
       <p class="modal-desc">
         2018년, 남태평양의 작은 섬나라 투발루에 태권도 문화외교단으로 파견되었습니다.<br>
         인구 5천여 명의 나라. 바다처럼 맑고 순수한 사람들.<br>
-        밤이 되면 비행기 활주로에 모두 나와 함께 누워 별똥별을 바라보던 그 밤 —<br>
+        밤이 되면 활주로에 모두 나와 함께 누워 별똥별을 바라보던 그 밤 —<br>
         지금도 눈을 감으면 선명하게 떠오르는 곳입니다.
       </p>
 
       <div class="modal-video">
-        <video controls>
+        <video controls preload="metadata" playsinline>
           <source src="단독공연.mp4" type="video/mp4">
         </video>
       </div>
 
-      <!-- 투발루 풍경 (Wikimedia Commons 공개 이미지) -->
       <div class="modal-grid">
         <img class="span2"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Funafuti_atoll_from_the_air_by_Jialiang_Gao.jpg/1280px-Funafuti_atoll_from_the_air_by_Jialiang_Gao.jpg"
-          alt="투발루 푸나푸티 환초 항공뷰" onclick="openLightbox(this.src)">
+          alt="투발루 푸나푸티 환초 항공뷰" onclick="openLightbox(this.src)" loading="lazy">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Tuvalu_Funafuti_Motu.jpg/640px-Tuvalu_Funafuti_Motu.jpg"
-          alt="투발루 해변" onclick="openLightbox(this.src)">
+          alt="투발루 해변" onclick="openLightbox(this.src)" loading="lazy">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Tuvalu_Island.jpg/640px-Tuvalu_Island.jpg"
-          alt="투발루 섬" onclick="openLightbox(this.src)">
+          alt="투발루 섬" onclick="openLightbox(this.src)" loading="lazy">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Funafuti_Atoll%2C_Tuvalu.jpg/640px-Funafuti_Atoll%2C_Tuvalu.jpg"
-          alt="투발루 항공뷰" onclick="openLightbox(this.src)">
+          alt="투발루 항공뷰" onclick="openLightbox(this.src)" loading="lazy">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Tuvalu_funafuti_beach.jpg/640px-Tuvalu_funafuti_beach.jpg"
-          alt="투발루 해변" onclick="openLightbox(this.src)">
+          alt="투발루 해변 2" onclick="openLightbox(this.src)" loading="lazy">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Funafuti_airport_tuvalu.jpg/640px-Funafuti_airport_tuvalu.jpg"
-          alt="투발루 공항" onclick="openLightbox(this.src)">
+          alt="투발루 공항" onclick="openLightbox(this.src)" loading="lazy">
       </div>
 
-      <!-- 직접 찍은 사진 -->
       <p class="my-photos-title">— 직접 담은 기억들</p>
       <div class="my-grid">
-        <img src="첫수업_.JPG" alt="첫 수업" onclick="openLightbox(this.src)">
-        <img src="IMG_4590.JPG" alt="태권도 수업" onclick="openLightbox(this.src)">
-        <img src="IMG_4806.JPG" alt="투발루 바다" onclick="openLightbox(this.src)">
-        <img src="IMG_4691.JPG" alt="야자수" onclick="openLightbox(this.src)">
-        <img src="IMG_4695.JPG" alt="노을" onclick="openLightbox(this.src)">
-        <img src="IMG_4719.JPG" alt="일몰" onclick="openLightbox(this.src)">
-        <img src="IMG_4449.JPG" alt="활주로" onclick="openLightbox(this.src)">
-        <img src="20180113_095903.jpg" alt="활주로 옆" onclick="openLightbox(this.src)">
+        <img src="첫수업_.JPG" alt="첫 수업" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4590.JPG" alt="태권도 수업" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4806.JPG" alt="투발루 바다" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4691.JPG" alt="야자수" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4695.JPG" alt="노을" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4719.JPG" alt="일몰" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="IMG_4449.JPG" alt="활주로" onclick="openLightbox(this.src)" loading="lazy">
+        <img src="20180113_095903.jpg" alt="활주로 풍경" onclick="openLightbox(this.src)" loading="lazy">
       </div>
 
     </div>
@@ -546,7 +710,7 @@
 
   <!-- 라이트박스 -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-x">✕</span>
+    <span class="lightbox-x" role="button" aria-label="닫기">✕</span>
     <img id="lbImg" src="" alt="">
   </div>
 
@@ -558,6 +722,9 @@
     function closeTuvalu() {
       document.getElementById('tuvaluModal').classList.remove('open');
       document.body.style.overflow = '';
+      // 영상 정지
+      const v = document.querySelector('#tuvaluModal video');
+      if (v) v.pause();
     }
     function openLightbox(src) {
       document.getElementById('lbImg').src = src;
